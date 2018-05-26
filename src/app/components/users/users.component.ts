@@ -10,6 +10,7 @@ export class UsersComponent implements OnInit {
   users: User[];
   showExtended: Boolean = true;
   loaded: Boolean = false;
+  enabledAdd: Boolean = true;
 
   constructor() { }
 
@@ -30,7 +31,8 @@ export class UsersComponent implements OnInit {
             street: '25  La Perla Ave',
             city: 'Tustin',
             state: 'CA'
-          }
+          }, 
+          image: 'https://placeimg.com/600/600/nature/3'
         }, 
   
         {
@@ -47,7 +49,8 @@ export class UsersComponent implements OnInit {
             street: '7 main Ave',
             city: 'Vancouver',
             state: 'BC'
-          }
+          },
+          image: 'https://placeimg.com/600/600/nature/2'
         }, 
   
         {
@@ -64,7 +67,8 @@ export class UsersComponent implements OnInit {
             street: '15  Lomas St.',
             city: 'Boston',
             state: 'MA'
-          }
+          },
+          image: 'https://placeimg.com/600/600/nature/1'
         }
       ];
 
@@ -75,7 +79,8 @@ export class UsersComponent implements OnInit {
 
     this.addUser({
       firstName: "Karla",
-      lastName: "Rodriguez"
+      lastName: "Rodriguez",
+      image: "https://placeimg.com/600/600/nature/8"
     });
   }
 
