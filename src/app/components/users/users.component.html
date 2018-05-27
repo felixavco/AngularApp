@@ -1,7 +1,43 @@
 
+<!-- <button (click)="showUserForm = !showUserForm" class="btn btn-dark">Add User</button> -->
+<div class="card card-body mb-3" *ngIf="showUserForm">
+  <h2 class="text-center">Add User</h2>
+  <form class="w-50 mx-auto">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input [(ngModel)]="user.firstName" type="text" name="firstName" id="firstName" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input [(ngModel)]="user.lastName" type="text" name="lastName" id="lastName" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input type="date" name="dob" id="dob" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="street">Address</label>
+      <div class="row">
+        <div class="col-sm-12 mb-2">
+            <input [(ngModel)]="user.address.street" id="street" type="text" name="street" class="form-control" placeholder="Street">
+        </div>
+        <div class="col-sm-6 mb-2">
+            <input [(ngModel)]="user.address.city" type="text" name="city" class="form-control" placeholder="City">
+        </div>
+        <div class="col-sm-6 mb-2">
+            <input [(ngModel)]="user.address.state" type="text" name="state" class="form-control" placeholder="State">
+        </div>
+      </div>
+    </div>
+
+    <button (click)="addUser()" [disabled]="user.firstName == '' || user.lastName =='' " class="btn bnt-success btn-block mb-3"> Add New User</button>
+  </form>
+</div>
 
 <h2 class="text-center my-5">Users </h2>
-<button (click)="addUser({firstName:'Homer', lastName:'Simpson', isActive:true})" [disabled]="!enabledAdd" class="btn bnt-success btn-block mb-3"> Add New User</button>
 <ul class="list-unstyled" *ngIf="loaded && users?.length > 0">
   <li [class.alert-danger]="!user.isActive" [style.border-color]="user.isActive ? 'green' : ''" *ngFor="let user of users" class="card card-body shadow my-3 bg-white rounded">
 
@@ -13,12 +49,24 @@
       <!-- </div> -->
 
       <!-- <div class="col-sm-8"> -->
-        <h3>{{ user.firstName | uppercase}} {{ user.lastName | uppercase}}</h3>
-        <ul class="list-group" *ngIf="showExtended && user.dob && user.address">
-          <li class="list-group-item">DOB: {{user.dob.d}}/{{ user.dob.m + 1}}/{{user.dob.y}}</li>
-          <li class="list-group-item">Address: {{ user.address.street }} {{ user.address.city }} {{ user.address.state }}</li>
+        <h3>{{ user.firstName | uppercase}} {{ user.lastName | uppercase}} 
+          <small *ngIf="user.dob && user.address">
+            <button class="btn btn-dark btn-sm" (click)="user.hide = !user.hide">
+              <i [ngClass]="user.hide ? 'fa fa-plus' : 'fa fa-minus' "></i>
+            </button>
+          </small>
+        </h3>
+        <ul class="list-group" *ngIf="!user.hide && user.dob && user.address">
+          <li class="list-group-item">
+            DOB: {{user.dob.d}}/{{ user.dob.m + 1}}/{{user.dob.y}}
+          </li>
+          <li class="list-group-item">
+            Address: {{ user.address.street }} {{ user.address.city }} {{ user.address.state }}
+          </li>
           <!-- <li class="list-group-item">Balance: {{user.balance | currency: "CAD"}} until {{ 0.25 | percent}}</li> -->
-          <li class="list-group-item">Joined: {{user.registered | date}} @ {{user.registered | date:"shortTime"}}</li>
+          <li class="list-group-item">
+            Joined: {{user.registered | date}} @ {{user.registered | date:"shortTime"}}
+          </li>
         </ul>
       <!-- </div> -->
     <!-- </div> -->

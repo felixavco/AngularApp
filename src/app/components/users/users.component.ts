@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/User';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-users',
@@ -7,17 +8,31 @@ import { User } from '../../models/User';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  user: User= {
+    firstName: "",
+    lastName: "",
+    dob: {
+      m: null,
+      d: null, 
+      y: null
+    }, 
+    address: {
+      street: '',
+      city: '',
+      state: ''
+    }
+  };
   users: User[];
-  showExtended: Boolean = false;
+  showExtended: Boolean = true;
   loaded: Boolean = false;
-  enabledAdd: Boolean = true;
-  // currentClasses = {};
-  // currentSytles = {};
+  enabledAdd: Boolean = false;
+  hide?: true;
+  showUserForm:Boolean = new NavbarComponent().changeShowForm();
+  date:String;
 
   constructor() { }
 
   ngOnInit() {
-    // setTimeout(() => {
       this.users = [
         {
           firstName: "Felix",
@@ -37,7 +52,8 @@ export class UsersComponent implements OnInit {
           // image: 'https://placeimg.com/600/600/nature/3',
           isActive: true,
           // balance: 1000,
-          registered: new Date('01/02/2017 08:30:00')
+          registered: new Date('01/02/2017 08:30:00'), 
+          hide:true
         }, 
   
         {
@@ -58,7 +74,8 @@ export class UsersComponent implements OnInit {
           // image: 'https://placeimg.com/600/600/nature/2',
           isActive: true,
           // balance: 500,
-          registered: new Date('04/18/2013 15:30:00')
+          registered: new Date('04/18/2013 15:30:00'),
+          hide:true
         }, 
   
         {
@@ -77,14 +94,14 @@ export class UsersComponent implements OnInit {
             state: 'MA'
           },
           // image: 'https://placeimg.com/600/600/nature/1',
-          isActive: false,
+          isActive: true,
           // balance: 200,
-          registered: new Date('01/05/2018 11:00:00')
+          registered: new Date('01/05/2018 11:00:00'),
+          hide:true
         }
       ];
 
       this.loaded = true;
-    // }, 1000);
 
   
 
@@ -92,35 +109,18 @@ export class UsersComponent implements OnInit {
       firstName: "Karla",
       lastName: "Rodriguez",
       // image: "https://placeimg.com/600/600/nature/8",
-      isActive: false,
+      isActive: true,
       // balance: 100,
-      registered: new Date('02/05/2017 09:30:00')
+      registered: new Date('02/05/2017 09:30:00'),
+      hide:true
     });
 
-    // this.setCurrentClasses();
-    // this.setCurrentStyles();
+  
   }
 
   // function to create new users
   addUser(user: User) {
     this.users.push(user);
   }
-
-  // setCurrentClasses(){
-  //   this.currentClasses = {
-  //     'btn-success':this.enabledAdd, // class will be added if "enabledAdd" is true
-  //     'big-text':this.showExtended
-  //   }
-  // }
-
-  // setCurrentStyles(){
-  //   this.currentSytles = {
-  //     'padding-top': this.showExtended ? '0' : '10%',
-  //     'font-size' : this.showExtended ? '' : '40px'
-  //   }
-  // }
-
-
-
 
 }
