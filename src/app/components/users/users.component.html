@@ -1,7 +1,7 @@
 
 
 <h2 class="text-center my-5">Users </h2>
-<button [disabled]="!enabledAdd" class="btn bnt-success btn-block mb-3"> Add New User</button>
+<button (click)="addUser({firstName:'Homer', lastName:'Simpson', isActive:true})" [disabled]="!enabledAdd" class="btn bnt-success btn-block mb-3"> Add New User</button>
 <ul class="list-unstyled" *ngIf="loaded && users?.length > 0">
   <li [class.alert-danger]="!user.isActive" [style.border-color]="user.isActive ? 'green' : ''" *ngFor="let user of users" class="card card-body shadow my-3 bg-white rounded">
 
