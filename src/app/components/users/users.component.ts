@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/User';
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-users',
@@ -11,24 +10,20 @@ export class UsersComponent implements OnInit {
   user: User= {
     firstName: "",
     lastName: "",
+    email: "",
     dob: {
       m: null,
       d: null, 
       y: null
     }, 
-    address: {
-      street: '',
-      city: '',
-      state: ''
-    }
   };
   users: User[];
   showExtended: Boolean = true;
   loaded: Boolean = false;
   enabledAdd: Boolean = false;
   hide?: true;
-  showUserForm:Boolean = new NavbarComponent().changeShowForm();
-  date:String;
+  showUserForm:Boolean = false;
+  date:string;
 
   constructor() { }
 
@@ -37,21 +32,14 @@ export class UsersComponent implements OnInit {
         {
           firstName: "Felix",
           lastName: "Avelar",
+          email: "felixavco@gmail.com",
           dob: 
           {
             m: 2,
             d: 5,
             y: 1989
-          },
-          address: 
-          {
-            street: '25  La Perla Ave',
-            city: 'Tustin',
-            state: 'CA'
           }, 
-          // image: 'https://placeimg.com/600/600/nature/3',
           isActive: true,
-          // balance: 1000,
           registered: new Date('01/02/2017 08:30:00'), 
           hide:true
         }, 
@@ -59,21 +47,14 @@ export class UsersComponent implements OnInit {
         {
           firstName: "Camila",
           lastName: "Avelar",
+          email: "cavelar@gmail.com",
           dob: 
           {
             m: 3, 
             d: 18,
             y: 2013
           },
-          address: 
-          {
-            street: '7 main Ave',
-            city: 'Vancouver',
-            state: 'BC'
-          },
-          // image: 'https://placeimg.com/600/600/nature/2',
           isActive: true,
-          // balance: 500,
           registered: new Date('04/18/2013 15:30:00'),
           hide:true
         }, 
@@ -81,46 +62,75 @@ export class UsersComponent implements OnInit {
         {
           firstName: "Brenda",
           lastName: "Marroquin",
+          email: "bmarroquin@gmail.com",
           dob: 
           {
             m: 7, 
             d: 29,
             y: 1986
           },
-          address: 
-          {
-            street: '15  Lomas St.',
-            city: 'Boston',
-            state: 'MA'
-          },
-          // image: 'https://placeimg.com/600/600/nature/1',
           isActive: true,
-          // balance: 200,
           registered: new Date('01/05/2018 11:00:00'),
           hide:true
         }
       ];
 
       this.loaded = true;
-
-  
-
-    this.addUser({
-      firstName: "Karla",
-      lastName: "Rodriguez",
-      // image: "https://placeimg.com/600/600/nature/8",
-      isActive: true,
-      // balance: 100,
-      registered: new Date('02/05/2017 09:30:00'),
-      hide:true
-    });
-
-  
   }
 
   // function to create new users
-  addUser(user: User) {
-    this.users.push(user);
+  addUser() {
+    this.fillDOB();
+    this.user.isActive = true;
+    this.user.registered = new Date();
+    this.users.unshift(this.user);
+    this.user = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      dob: {
+        m: null,
+        d: null, 
+        y: null
+      }
+    };
+
+    this.showUserForm = false;
   }
+
+  fillDOB(){
+    let fullDate = new Date(this.date);
+    let d = fullDate.getDate();
+    let m = fullDate.getMonth();
+    let y = fullDate.getFullYear();
+    this.user.dob.d = d + 1;
+    this.user.dob.m = m;
+    this.user.dob.y = y;
+
+   }
+
+   getAge(D, M, Y):number{
+
+    let d = new Date();
+    let m = d.getMonth();
+    let dt = d.getDate();
+    let y = d.getFullYear();
+
+    if(m >= M){
+      if(dt >= D){
+        let age = y - Y;
+        return age;
+      } else{
+        let age = (y - Y) - 1;
+        return age;
+      }
+    }
+    else {
+      let age = (y - Y) - 1;
+      return age;
+    }
+  }
+
+   
 
 }
