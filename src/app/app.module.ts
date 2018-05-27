@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/Forms';
 import { AppComponent } from './app.component';
 import { UsersComponent } from './components/users/users.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { DataService } from './services/data.service';
+import { MethodsService } from './services/methods.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

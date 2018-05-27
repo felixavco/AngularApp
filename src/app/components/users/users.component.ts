@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '../../models/User';
+import { DataService } from '../../services/data.service';
+import { MethodsService } from '../../services/methods.service';
 
 @Component({
   selector: 'app-users',
@@ -11,11 +13,7 @@ export class UsersComponent implements OnInit {
     firstName: "",
     lastName: "",
     email: "",
-    dob: {
-      m: null,
-      d: null, 
-      y: null
-    }, 
+    dob: "" 
   };
   users: User[];
   showExtended: Boolean = true;
@@ -23,93 +21,32 @@ export class UsersComponent implements OnInit {
   enabledAdd: Boolean = false;
   hide?: true;
   showUserForm:Boolean = false;
-  date:string;
+  @ViewChild('userForm') form: any;
+  data:any;
 
-  constructor() { }
+  constructor(private dataService: DataService, private methodsService: MethodsService) { }
 
   ngOnInit() {
-      this.users = [
-        {
-          firstName: "Felix",
-          lastName: "Avelar",
-          email: "felixavco@gmail.com",
-          dob: 
-          {
-            m: 2,
-            d: 5,
-            y: 1989
-          }, 
-          isActive: true,
-          registered: new Date('01/02/2017 08:30:00'), 
-          hide:true
-        }, 
-  
-        {
-          firstName: "Camila",
-          lastName: "Avelar",
-          email: "cavelar@gmail.com",
-          dob: 
-          {
-            m: 3, 
-            d: 18,
-            y: 2013
-          },
-          isActive: true,
-          registered: new Date('04/18/2013 15:30:00'),
-          hide:true
-        }, 
-  
-        {
-          firstName: "Brenda",
-          lastName: "Marroquin",
-          email: "bmarroquin@gmail.com",
-          dob: 
-          {
-            m: 7, 
-            d: 29,
-            y: 1986
-          },
-          isActive: true,
-          registered: new Date('01/05/2018 11:00:00'),
-          hide:true
-        }
-      ];
 
-      this.loaded = true;
+      // this.showUserForm = this.methodsService.changeSF();
+
+      this.dataService.getData().subscribe(data => {
+        console.log(data);
+      });
+      
+      this.dataService.getUsers().subscribe(users => {
+        this.users = users;
+        this.loaded = true;
+      });  
   }
 
   // function to create new users
-  addUser() {
-    this.fillDOB();
-    this.user.isActive = true;
-    this.user.registered = new Date();
-    this.users.unshift(this.user);
-    this.user = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      dob: {
-        m: null,
-        d: null, 
-        y: null
-      }
-    };
+   getAge(date):number{
 
-    this.showUserForm = false;
-  }
-
-  fillDOB(){
-    let fullDate = new Date(this.date);
-    let d = fullDate.getDate();
-    let m = fullDate.getMonth();
-    let y = fullDate.getFullYear();
-    this.user.dob.d = d + 1;
-    this.user.dob.m = m;
-    this.user.dob.y = y;
-
-   }
-
-   getAge(D, M, Y):number{
+    let fullDate = new Date(date);
+    let D = fullDate.getDate();
+    let M = fullDate.getMonth();
+    let Y = fullDate.getFullYear();
 
     let d = new Date();
     let m = d.getMonth();
@@ -129,6 +66,25 @@ export class UsersComponent implements OnInit {
       let age = (y - Y) - 1;
       return age;
     }
+  }
+
+  onSubmit({value, valid}:{value: User, valid:boolean}){
+    if(!valid)
+    {
+      console.log("Form is not Valid");
+    }
+    else
+    {
+      value.isActive = true;
+      value.registered = new Date();
+      value.hide = true;
+      // this.users.unshift(value);
+      this.dataService.addUser(value);
+      this.form.reset();
+      this.showUserForm = false;
+    }
+
+    
   }
 
    
